@@ -4,58 +4,83 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Carros no Estacionamento</title>
+
+    <style>
+        
+        @media only screen and (max-width: 972px) {
+  table {
+      
+     font-size: 12px;
+  }
+  
+
+
+}
+@media only screen and (max-width: 767px) {
+  table {
+      
+     font-size: 10px;
+  }
+  button {
+      margin-top: 10px;
+      margin-left: 200px;
+  }
+
+  
+}
+@media only screen and (max-width: 476px) {
+    button, a {
+    text-align: center;
+    font-size: 7px;
+     height:  30px;
+     width: 60px;
+    }
+}
+    </style>
 </head>
 <body>
-<a href="index.php">Inserir Carros</a>
 </br>
+<div class="container col-xs-12">
+ <div class="card ">
+ <div class="card-header">    
+<a href="index.php">Inserir Carros</a>   
 <div id="table">
     
-      <table border="1" id="table" span="26">
+      <table border="1" class="table">
+     <thead>     
     <tr>
 
-        <th colspan='2'>Placa</th>
-        <th colspan='3'>Modelo</th>
-        <th colspan='3'>Cor</th>
-        <th colspan='5'>Propriétario</th>
-        <th colspan='2'>Telefone</th>
-        <th colspan='6'>Ações</th>
+        <th scope="col">Placa</th>
+        <th scope="col">Modelo</th>
+        <th scope="col">Cor</th>
+        <th scope="col">Propriétario</th>
+        <th scope="col">Telefone</th>
+        <th scope="col">Ações</th>
     </tr>
+</thead>
+<tbody>
     <?php 
-    require_once("db.php");
-    $stmt = $db->query("Select * FROM carro");
-    while($row = $stmt->fetch()) {
-         echo "<tr>".
-         "<td colspan='2'>".$row['placa']."</td>
-         <td colspan='3'>".$row['modelo']."</td>
-         <td colspan='3'>".$row['cor']."</td>
-        <td colspan='5'>".$row['proprietario']."</td>
-         <td colspan='3'>".$row['telefone']."</td>
-         <td colspan='2'> <a href='index.php?placa=".$row["placa"]."'>Alterar</a>&nbsp;<button onclick='exclusao(".$row['id'].")'>Excluir</button></td>
+    require_once("controller.php");
+    foreach(Controller::getCarros() as $row) {
+         echo "<tr scope='row'>".
+         "<td>".$row['placa']."</td>
+         <td>".$row['modelo']."</td>
+         <td>".$row['cor']."</td>
+        <td>".$row['proprietario']."</td>
+         <td>".$row['telefone']."</td>
+         <td> <a href='index.php?id=".$row["id"]."' class='btn btn-warning'>Alterar</a><button style='margin-left: 7px' class='btn btn-danger' onclick='exclusao(".$row['id'].")'>Excluir</button></td>
          </tr>";
     }
     ?>
-
+   
+</tdbody>
 </table>
 </div>
+</div>
+</div>
 
-<script>
-    function exclusao(id) {
-      
-        var msg = confirm("Atenção: Deseja Excluir esse Registro?");
-    
-        if (msg){
-           
-            window.location.href = "excluir.php?id=" + id;
-    
-        }
-        else{
-            alert("Operação Cancelada, o Registro não será Excluído!");
-    
-    
-        }
-    }
-    
-    </script>
+<script src= "index.js"></script>
 </body>
 </html>
